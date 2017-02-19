@@ -1,0 +1,45 @@
+form{
+	margin: 20px 20px 20px;
+}
+textarea{
+	width: 600px;
+	margin: 0 0 10px 0;
+	font: 15px '微软雅黑';
+	padding-left: 10px;
+}
+input{
+	height: 30px;
+	margin: 0 0 10px 0;
+	font: 15px '微软雅黑';
+	padding-left: 5px;
+}
+button{
+	height: 35px;
+	width: 70px;
+	outline: none;
+	border-radius: 10px;
+	cursor: pointer;
+	font: 15px '微软雅黑';
+	background: #7092AA;
+	border: none;
+	color: #FFFFFF;
+}
+button:hover{
+	background: #374058;
+	transition: background 0.8s;
+}
+#queue div{
+	float: left;
+	padding: 0 15px 0 15px;
+	margin: 5px;
+	border-radius: 5px;
+	background: #5EB150;
+	color: #FFFFFF;
+	font: 25px/50px '微软雅黑';
+	text-align: center;
+}
+#queue div em{
+	color: #585621;
+	background: #FFF13A;
+	font-style: normal;
+}

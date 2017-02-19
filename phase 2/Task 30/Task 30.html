@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>任务三十：表单（二）多个表单项的动态校验</title>
+    <style>
+        table .label{
+            text-align: right;
+            padding-right: 20px;
+        }
+        table input{
+            height: 20px;
+            padding-left: 5px;
+            font-size: 16px;
+            outline: none;
+            border: solid 2px #2F2F38;
+            border-radius: 5px;
+        }
+        table .tip{
+            height: 16px;
+            font-size: 12px;
+        }
+        table .submit{
+            text-align: right;
+        }
+        button{
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-size: 14px;
+            background: #40559a;
+            transition: background 0.7s;
+            color: #ffffff;
+            outline: none;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover{
+            background: #373a74;
+        }
+    </style>
+</head>
+<body>
+    <form action="">
+        <table>
+            <tr>
+                <td class="label"><label for="name">名称</label></td>
+                <td><input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="tip"></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="password">密码</label></td>
+                <td><input type="password" name="password"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="tip"></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="password-confirm">密码确认</label></td>
+                <td><input type="password" name="password-confirm" disabled = disabled></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="tip"></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="email">邮箱</label></td>
+                <td><input type="text" name="email"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="tip"></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="phone-number">手机</label></td>
+                <td><input type="text" name="phone-number"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="tip"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="submit"><button>提交</button></td>
+            </tr>
+        </table>
+    </form>
+    <script >
+        var inputs = document.getElementsByTagName("input");
+
+        function InputInfo(obeject, hint, right, wrong, judge){
+            var o = new Object();
+            //属性
+            o.object = obeject;
+            o.tip = obeject.parentNode.parentNode.nextSibling.nextSibling.childNodes[3];
+            o.hint = hint;
+            o.right = right;
+            o.wrong = wrong;
+            o.judge = judge;
+            o.isPassed = false;
+            //方法
+            o.onfucus = function () {
+                o.tip.style.color = "#6a6a6a";
+                o.tip.innerHTML = hint;
+            };
+            o.onblur = function() {
+                if (o.judge(o.object.value)){
+                    o.object.style["border-color"] = o.tip.style.color = "#02a035";
+                    o.tip.innerHTML = right;
+                    o.isPassed = true;
+                    if (o.object.name == "password") {
+                        o.tip.parentNode.nextSibling.nextSibling.childNodes[3].childNodes[0].disabled = false;
+                    }
+                }
+                else if (o.object.value == ""){
+                    o.object.style["border-color"] = o.tip.style.color = "#cc2f29";
+                    o.tip.innerHTML = obeject.parentNode.previousSibling.previousSibling.childNodes[0].innerHTML + "不能为空";
+                    o.isPassed = false;
+                    if (o.object.name == "password") {
+                        o.tip.parentNode.nextSibling.nextSibling.childNodes[3].childNodes[0].disabled = true;
+                    }
+                }
+                else{
+                    o.object.style["border-color"] = o.tip.style.color = "#cc2f29";
+                    o.tip.innerHTML = wrong;
+                    o.isPassed = false;
+                    if (o.object.name == "password") {
+                        o.tip.parentNode.nextSibling.nextSibling.childNodes[3].childNodes[0].disabled = true;
+                    }
+                }
+            };
+            return o;
+        }
+
+        var info = [new InputInfo(inputs[0], "请输入4-16位的用户名", "用户名格式正确", "用户名格式错误", function(value){return /^[\S]{4,16}$/.test(value)}),
+            new InputInfo(inputs[1], "请输入8-16位字母与数字组合的密码", "密码格式正确", "密码格式错误", function(value){return /^[A-Za-z0-9]{8,16}$/.test(value)}),
+            new InputInfo(inputs[2], "请再次输入密码", "密码输入一致", "密码输入不一致", function(value){return info[1].object.value == value}),
+            new InputInfo(inputs[3], "example@123.com", "邮箱格式正确", "邮箱格式错误", function(value){return /^[\w-_]+@[\w-_]+.[\w-_]+$/.test(value)}),
+            new InputInfo(inputs[4], "请输入11位手机号码", "手机号码格式正确", "手机号码格式错误", function(value){return /^[\d]{11}$/.test(value)}),
+        ];
+        for (var i = 0; i < inputs.length; i++){
+            inputs[i].onfocus = function(i){
+                return info[i].onfucus;
+            }(i);
+            inputs[i].onblur = function(i){
+                return info[i].onblur;
+            }(i);
+        }
+        document.getElementsByTagName("button")[0].onclick = function(){
+            if (info[0].isPassed && info[1].isPassed && info[2].isPassed && info[3].isPassed && info[4].isPassed){
+                alert("提交成功");
+            }
+            else{
+                alert("提交失败");
+            }
+        }
+    </script>
+</body>
+</html>

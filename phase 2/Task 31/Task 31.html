@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表单（三）联动</title>
+    <style>
+        form input{
+            margin-bottom: 10px;
+        }
+        label, select{
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form action="">
+        <input type="radio" name="type" value="student" checked>在校生
+        <input type="radio" name="type" value="not-student">非在校生
+        <br>
+        <div id="organization"></div>
+    </form>
+    <script>
+        var types = document.getElementsByName("type");
+        var organization = document.getElementById("organization");
+
+        var university = {"北京": ["北京大学", "清华大学"],
+        "上海": ["上海交通大学", "复旦大学"],
+        "广州": ["中山大学", "华南理工大学", "暨南大学"]};
+        keys = Object.keys(university);
+
+        function renderUniversity() {
+            var domUniversity = document.getElementsByName("university")[0];
+            var index = document.getElementsByName("city")[0].selectedIndex;
+            var content = "";
+            for (i = 0; i < university[keys[index]].length; i++){
+                content += "<option>" + university[keys[index]][i] + "</option>";
+            }console.log(domUniversity);
+            if (domUniversity){
+                domUniversity.innerHTML = content;
+            }
+            else {
+                organization.innerHTML += "<select name='university'>" + content + "</select>";
+            }
+            console.log(organization);
+        }
+        function render() {
+            if (types[0].checked){
+                var content = "";
+                for (i = 0; i < keys.length; i++){
+                    content += "<option>" + keys[i] + "</option>";
+                }
+                organization.innerHTML = "<label>学校</label><select name='city' onchange='renderUniversity();'>" + content + "</select>";
+                renderUniversity();
+            }
+            else{
+                organization.innerHTML = "<label>就业单位</label><input type='text'>";
+                domUniversity = null;
+            }
+        }
+
+        render();
+        var selected = 0;
+
+        types[0].onclick = function () {
+            if (selected == 1){
+                render();
+                selected = 0;
+            }
+        };
+        types[1].onclick = function () {
+            if (selected == 0){
+                render();
+                selected = 1;
+            }
+        };
+    </script>
+</body>
+</html>

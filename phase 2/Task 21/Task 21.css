@@ -1,0 +1,68 @@
+body{
+	width: 800px;
+	margin: 10px auto 10px auto;
+	font-family: '微软雅黑';
+}
+.border{
+	border: solid 2px #767676;
+	border-radius: 5px;
+	padding: 20px;
+	margin: 10px 0 20px 0;
+}
+label{
+	font-size: 20px;
+	color: #374058;
+}
+input{
+	width: 150px;
+	height: 25px;
+	margin: 0;
+	font-size: 15px;
+	padding-left: 5px;
+}
+.display{
+	overflow: auto;
+	margin: 20px 0 0 0;
+}
+.display div{
+	float: left;
+	padding: 0 38px 0 39px;
+	margin: 0 5px 0 5px;
+	border-radius: 5px;
+	color: #FFFFFF;
+	font: 20px/40px '微软雅黑';
+	text-align: center;
+}
+#tag .display div{
+	background: #5EB150;
+	cursor: pointer;
+}
+#tag .display div:hover{
+	background: #D84343;
+	transition: background 0.8s;
+}
+textarea{
+	width: 442px;
+	margin: 0 0 10px 0;
+	font-size: 15px;
+	padding-left: 10px;
+}
+
+button{
+	padding: 5px 10px 5px 10px;
+	margin: 0;
+	outline: none;
+	border-radius: 5px;
+	font-size: 15px;
+	background: #7092AA;
+	border: none;
+	color: #FFFFFF;
+	cursor: pointer;
+}
+button:hover{
+	background: #374058;
+	transition: background 0.8s;
+}
+#interest .display div{
+	background: #BA7637;
+}

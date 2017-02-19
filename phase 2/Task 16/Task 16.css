@@ -1,0 +1,74 @@
+div#tip{
+	position: absolute;
+	height: 66px;
+	margin-left: 310px;
+}
+div#tip p{
+	position: absolute;
+	margin-top: 10px;
+	margin-bottom: 0;
+	line-height: 140%;
+	color: #FF4B4B;
+}
+div#tip p#city-tip{
+	top: 0;
+}
+div#tip p#aqi-tip{
+	bottom: 0;
+}
+div{
+	width: 300px;
+	height: 100px;
+}
+label{
+	float: right;
+	margin-top: 10px;
+}
+button#add-btn{
+	float: right;
+	margin: 10px 0 0 0;
+	padding: 5px 15px 5px 15px;
+	color : #ffffff;
+	background: #FF4B4B;
+	outline: none;
+	border: none;
+}
+button#add-btn:hover{
+	cursor: hand;
+	color : #ffffff;
+	background: #8C2020;
+}
+table{
+	margin-top: 50px;
+	border-collapse: collapse;
+	width: 500px;
+}
+table th{
+	height: 35px;
+	border: solid 1px #fff;
+	color: #fff;
+	background: #333F4F;
+}
+table tr:nth-child(even){
+	background: #D5EAC6;
+}
+table tr:nth-child(odd){
+	background: #CBE1F5;
+}
+table td{
+	width: 200px;
+	height: 25px;
+	border: solid 1px #fff;
+	text-align: center;
+	vertical-align: middle;
+}
+table td button{
+	color: #3C5497;
+	background: none;
+	outline: none;
+	border: none;
+}
+table td button:hover{
+	cursor: hand;
+	color : #FF4B4B;
+}

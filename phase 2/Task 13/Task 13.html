@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 01</title>
+  </head>
+<body>
+
+  <label>请输入北京今天空气质量：<input id="aqi-input" type="text"></label>
+  <button id="button">确认填写</button>
+
+  <div>您输入的值是：<span id="aqi-display">尚无录入</span></div>
+
+<script type="text/javascript">
+  /*  
+  在注释下方写下代码
+  给按钮button绑定一个点击事件
+  在事件处理函数中
+  获取aqi-input输入的值，并显示在aqi-display中
+  */
+  var domButton = document.getElementById("button");      
+  var domInputText = document.getElementById("aqi-input");
+  var domDisplayText = document.getElementById("aqi-display");
+
+  /*
+  函数名：Display
+  形  参：无
+  功  能：将输入框的值显示在页面上
+  返回值：无
+   */
+  function Display(){
+    var AQI = domInputText.value;
+    if(AQI == ""){
+      alert("请输入AQI数值")
+    }
+    else if((!isNaN(AQI)) && (AQI >=0) && (AQI <= 500)){
+      domDisplayText.innerHTML = AQI;
+    }
+    else{
+      alert(AQI + "不是有效的AQI数值，请输入0-500之间的数字");
+    }
+  }
+  
+  domButton.onclink = function(){
+    Display();
+  }
+
+  //如果按下Enter键或小键盘的Enter键则提交数据
+  domInputText.onkeypress = function(event){
+    if (event.keyCode === (13 || 108)) {
+      Display();
+    }
+  }
+
+  //若输入框失去焦点则提交数据
+  domInputText.onblur = function(){
+    if (domInputText.value != "") {
+      Display();
+    } 
+  }
+</script>
+</body>
+</html>

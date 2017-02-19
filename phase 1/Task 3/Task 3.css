@@ -1,0 +1,43 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors ZhuChangSheng (maddreamland@gmail.com)
+ * @date    2016-08-17 14:43:03
+ * @version $1.0.0$
+ */
+section{
+	background: #eee;
+	border: solid #999;
+	padding: 20px;
+}
+#logo{
+	float: left;
+	width: 200px;
+	padding: 20px;
+	border: 2px solid black;
+	background: white;
+}
+#logo img, aside img{
+	vertical-align: text-top;
+	width: 80px;
+	height: 80px;
+}
+article{
+	margin-left: 264px;
+	margin-right: 144px;
+	padding: 20px;
+	border: 2px solid black;
+	background: white;
+}
+aside{
+	float: right;
+	width: 120px;
+	background: white;
+	border: 2px solid black;
+}
+aside img{
+	margin: 20px;
+}
+#adapt{
+	clear: both;
+}

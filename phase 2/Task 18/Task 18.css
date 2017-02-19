@@ -1,0 +1,36 @@
+form{
+	width: 500px;
+	margin: 20px 20px 20px;
+}
+input{
+	height: 24px;
+	width: 100px;
+	margin: 0 20px 0 0;
+	font: 15px '微软雅黑';
+	padding-left: 10px;
+}
+button{
+	height: 35px;
+	width: 70px;
+	outline: none;
+	border-radius: 10px;
+	cursor: pointer;
+	font: 15px '微软雅黑';
+	background: #fff;
+	border: 2px solid #5490F9;
+	color: #5490F9;
+}
+button:hover{
+	background: #5490F9;
+	color: #FFFFFF;
+}
+#display div{
+	float: left;
+	padding: 0 15px 0 15px;
+	margin: 5px;
+	border-radius: 5px;
+	background: #E54343;
+	color: #FFFFFF;
+	font: 25px/50px '微软雅黑';
+	text-align: center;
+}

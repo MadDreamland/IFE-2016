@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>任务二十九：表单（一）单个表单项的检验</title>
+	<style type="text/css">
+		body{
+			font-family: '微软雅黑';
+		}
+		input{
+			margin-left: 20px;
+			margin-right: 20px;
+			height:30px;
+			border: solid 2px #9E9E9E;
+			font: 15px '微软雅黑';
+			padding-left: 10px;
+		}
+		button{
+			padding: 10px 20px 10px 20px;
+			border: none;
+			outline: none;
+			border-radius: 5px;
+			background: #4B8FEC;
+			color: #FFFFFF;
+			font: 16px/16px '微软雅黑';
+			cursor: pointer;
+			transition: background 0.8s;
+		}
+		button:hover{
+			background: #526886;
+		}
+		.tip{
+			margin-left: 55px;
+			margin-top: 5px;
+			color: #9E9E9E;
+			font-size: 14px;
+		}
+	</style>
+</head>
+<body>
+	<form>
+		<label for="name">名称</label>
+		<input type="text" name="name">
+		<button type="button" id="verify">验证</button>
+		<div class="tip">必填，长度为4~16个字符</div>
+	</form>
+	<script type="text/javascript">
+		var input = document.getElementsByName('name')[0];
+		var button = document.getElementById('verify');
+		var tip = document.getElementsByClassName('tip')[0];
+
+		button.onclick = function(){
+			var text = input.value.trim();
+			var doubleByte = text.match(/[^\x00-\xff]/g);
+			var doubleByteNum = doubleByte == null ? 0 : doubleByte.length;	//双字节字符数量
+			var singleByteNum = text.length - doubleByteNum;	//单字节字符数量
+			var num = singleByteNum + doubleByteNum * 2;
+			console.log('num = ' + num);
+			if (num >= 1 && num <= 16){
+				tip.innerHTML = "名称格式正确";
+				input.style.borderColor = "#2EA826";
+				tip.style.color = input.style.borderColor;
+			}
+			else if (text == ""){
+				tip.innerHTML = "姓名不能为空";
+				input.style.borderColor = "#D12525";
+				tip.style.color = input.style.borderColor;
+			}
+			else{
+				tip.innerHTML = "长度必须为为4~16个字符（一个中文字符记为两个字符）";
+				input.style.borderColor = "#D12525";
+				tip.style.color = input.style.borderColor;
+			}
+		}
+	</script>
+</body>
+</html>
