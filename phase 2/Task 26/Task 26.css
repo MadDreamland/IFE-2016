@@ -1,3 +1,62 @@
 body{
 	background: #282A38;
 }
+
+#universe{
+    position: relative;
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+    overflow: auto;
+}
+.planet{
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    margin-left: -50px;
+    border-radius: 50px;
+    background: #ff8d58;
+}
+.orbit{
+    position: absolute;
+    top: 172px;
+    left: 50%;
+    width: 150px;
+    height: 150px;
+    margin-left: -78px;
+    border-radius: 75px;
+    border: 3px solid #5b606e;
+}
+.spaceship{
+    width: 90px;
+    position: absolute;
+    left: 50%;
+    margin: -8px 0 0 -45px;
+    padding: 5px 0;
+    border-radius: 15px;
+    background: #72b972;
+    font-size: 12px;
+    text-align: center;
+}
+
+#control-panel{
+    width: 480px;
+    margin: auto;
+    padding: 10px;
+    border: 3px solid #4B8FEC;
+    border-radius: 10px;
+}
+button{
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    color: #dfd0ff;
+    background: #7349c4;
+    cursor: pointer;
+    transition: background 0.5s;
+}
+button:hover{
+    background: #5c3092;
+}

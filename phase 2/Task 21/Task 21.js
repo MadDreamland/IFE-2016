@@ -16,7 +16,7 @@ function $(selector){
  * times：闪烁的次数
  */
 function twinkle(target, style, interval, times) {
-    //保存旧样式
+	//保存旧样式
 	var oldStyleValue = target.style[style.split(/[:;]/)[0]];
 	var styleName = style.split(/[:;]/)[0];
     var styleValue = style.split(":")[1];
@@ -27,7 +27,7 @@ function twinkle(target, style, interval, times) {
 
 	var none = function() {
         target.style[styleName] = oldStyleValue;
-    };
+    }
 
 	var ms = 0;
 	for (var i = 0; i < times; i++){
