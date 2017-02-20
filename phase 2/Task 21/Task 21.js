@@ -15,19 +15,19 @@ function $(selector){
  * interval：闪烁的间隔（两种样式之间切换的间隔）
  * times：闪烁的次数
  */
-function twinkle(target, style, interval, times){
-	//保存旧样式
+function twinkle(target, style, interval, times) {
+    //保存旧样式
 	var oldStyleValue = target.style[style.split(/[:;]/)[0]];
 	var styleName = style.split(/[:;]/)[0];
-	var styleValue = style.split(":")[1];
+    var styleValue = style.split(":")[1];
 
-	function hint(){
-		target.style[styleName] = styleValue;
-	}
+    var hint = function() {
+        target.style[styleName] = styleValue;
+    };
 
-	function none(){
-		target.style[styleName] = oldStyleValue;
-	}
+	var none = function() {
+        target.style[styleName] = oldStyleValue;
+    };
 
 	var ms = 0;
 	for (var i = 0; i < times; i++){
@@ -37,7 +37,7 @@ function twinkle(target, style, interval, times){
 	}
 }
 
-function addTag(value){
+function addTag(value) {
 	for (var i = 0; i < displayTag.childNodes.length; i++) {
 		if (value == displayTag.childNodes[i].innerHTML){
 			twinkle(displayTag.childNodes[i], "background: #DDD200", 200, 3);
