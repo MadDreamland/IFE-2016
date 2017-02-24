@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>行星与飞船（二）</title>
+    <link rel="stylesheet" href="Task 27.css">
+</head>
+<body>
+    <div id="universe">
+        <div class="planet"></div>
+    </div>
+    <div id="control-panel">
+        <div id="new">
+            <div id="select-engine">
+                动力系统选择：
+                <label for="progress">
+                    <input type="radio" name="engine" value="progress">
+                    前进号（速率 30px/s，能耗 5%/s）
+                </label>
+                <label for="gallop">
+                    <input type="radio" name="engine" value="gallop">
+                    奔腾号（速率 50px/s，能耗 7%/s）
+                </label>
+                <label for="beyond">
+                    <input type="radio" name="engine" value="beyond">
+                    超越号（速率 80px/s，能耗 9%/s）
+                </label>
+            </div>
+            <div id="select-power">
+                能源系统选择：
+                <label for="strong">
+                    <input type="radio" name="power" value="strong">
+                    劲量型（补充能源速度2%/s）
+                </label>
+                <label for="light">
+                    <input type="radio" name="power" value="light">
+                    光能型（补充能源速度3%/s）
+                </label>
+                <label for="forever">
+                    <input type="radio" name="power" value="forever">
+                    永久型（补充能源速度4%/s）
+                </label>
+            </div>
+            <button id="new-spaceship">新的飞船起飞</button>
+        </div>
+
+    </div>
+    <div id="console">
+        <h1>控制台</h1>
+    </div>
+    <script src="Task 27.js"></script>
+</body>
+</html>

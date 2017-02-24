@@ -1,3 +1,6 @@
+/**
+ * Created by 10399 on 2017/2/23.
+ */
 //封装
 var $ = function (selector) {
     return document.querySelector(selector);
@@ -10,6 +13,7 @@ var createSpaceship = function (id) {
         this.id = id;     //飞船的唯一编号，从1开始
         this.speed = 1500;      //飞船飞行的速度，单位：像素/秒
         this.energy = 100;      //飞船当前的能量，百分比形式
+        this.expend =
         this.status = 'stop';     //飞船当前的状态
         this.orbitRadius = 0;       //飞船轨道半径
         this.angle = 0;
