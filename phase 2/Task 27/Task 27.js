@@ -1,26 +1,60 @@
 /**
  * Created by 10399 on 2017/2/23.
  */
-//封装
+
+//两个数求余
+Math.mod = function (num1, num2) {
+    return num1 - num2 * Math.floor(num1 / num2);
+};
+
+//将十进制数转换成二进制字符串
+Math.toBinary = function (num) {
+    if (num === 0) {
+        return '';
+    }
+    return arguments.callee(Math.floor(num / 2)) + Math.mod(num, 2);
+};
+
+//字符串前填充0
+String.prototype.fillZero = function (length) {
+    self = this;
+    while (self.length < length) {
+        self = '0' + self;
+    }
+    return self;
+};
+
+//将二进制字符串转换为十进制
+Math.toDecimalism = function (binary) {
+    var num;
+    if (binary.length === 0) {
+        return 0;
+    }
+    num = binary.substr(0, 1) * Math.pow(2, binary.length - 1);
+    return num + arguments.callee(binary.substr(1));
+};
+
+//简写 document.querySelector 函数
 var $ = function (selector) {
     return document.querySelector(selector);
 };
 
 //创建飞船
-var createSpaceship = function (id) {
+var createSpaceship = function (id, speed, expend, supply) {
     //飞船构造函数
-    var Spaceship = function (id) {
+    var Spaceship = function () {
         this.id = id;     //飞船的唯一编号，从1开始
-        this.speed = 1500;      //飞船飞行的速度，单位：像素/秒
+        this.speed = speed;      //飞船飞行的速度，单位：像素/秒
         this.energy = 100;      //飞船当前的能量，百分比形式
-        this.expend =
+        this.expend = expend;       //飞船每秒消耗的能量
+        this.supply = supply;       //飞船每秒的能量补充
         this.status = 'stop';     //飞船当前的状态
         this.orbitRadius = 0;       //飞船轨道半径
-        this.angle = 0;
+        this.angle = 0;     //飞船当前旋转的角度
         this.divOrbit = null;      //飞船轨道 DOM 对象
-        this.divSpaceship = null;
-        this.divPointer = null;
-        this.divCommand = null;
+        this.divSpaceship = null;   //飞船 DOM 对象
+        this.divPointer = null;     //飞船能量显示条 DOM 对象
+        this.divCommand = null;     //控制该飞船的指令板 DOM 对象
     };
 
     //动力系统
@@ -29,12 +63,14 @@ var createSpaceship = function (id) {
             return;
         }
         this.status = 'fly';
+
         var _this = this;
+        var intervalTime = 100;
         var omega = this.speed / this.orbitRadius;
 
         var fly = setInterval(function () {
             _this.angle += omega / 10;
-            _this.energy -= Math.round(5 / 10);
+            _this.energy -= Math.round(_this.expend * intervalTime / 1000);
             domRender(_this);
             if (_this.energy <= 0) {
                 _this.status = 'stop';
@@ -42,14 +78,14 @@ var createSpaceship = function (id) {
             if (_this.status === 'stop') {
                 clearInterval(fly);
             }
-        }, 100);
+        }, intervalTime);
     };
 
     //能源系统
     Spaceship.prototype.power = function () {
         var _this = this;
         setInterval(function () {
-            _this.energy += 2;
+            _this.energy += _this.supply;
             if (_this.energy > 100) {
                 _this.energy = 100;
             }
@@ -66,9 +102,9 @@ var createSpaceship = function (id) {
     };
 
     //信号接收处理系统
-    Spaceship.prototype.receive = function (commandPacket) {
+    Spaceship.prototype.receive = function (command) {
         var _this = this;
-        var command = {
+        var commands = {
             //开始飞行
             start: function() {
                 _this.engine();      //启动动力系统
@@ -82,13 +118,21 @@ var createSpaceship = function (id) {
                 _this.selfDestruction();        //启动自爆系统
             }
         };
+        var adapter = function (binary) {
+            var numId = Math.toDecimalism(binary.substr(0, 4));
+            var numCommand = Math.toDecimalism(binary.substr(4));
+            return {
+                id: numId,
+                command: planet.commands[numCommand].command
+            }
+        };
+        var commandPacket = adapter(command);
         if (commandPacket.id === this.id) {
-            command[commandPacket.command]();
+            commands[commandPacket.command]();
         }
-
     };
 
-    var spaceship = new Spaceship(id);
+    var spaceship = new Spaceship();
     createSpaceshipDomObject(spaceship);        //创建飞船到DOM
     spaceship.power();      //启动能源系统
 
@@ -162,31 +206,35 @@ var domRender = function (spaceship) {
 };
 
 //信号传播介质
-var mediator = function () {
-    var packetLossProbability = 0.3;
-    var transmit = function (commandPacket) {
+var BUS = {
+    packetLossProbability: 0.1,
+    transmitTime: 300,
+    transmit: function (command) {
+        var _this = this;
         setTimeout(function () {
-            //如果丢包，直接结束信号传输
-            if (Math.random() < packetLossProbability) {
-                $('#console').innerHTML += '<p>信号“' + commandPacket.id + '号：' + commandPacket.command + '”发送失败（丢包）</p>';
-                return $('#console').scrollTop = $('#console').scrollHeight;
+            var count = 0;
+            if (Math.random() < _this.packetLossProbability) {
+                DIYConsole.display('信号“' + command + '”发送失败，正在进行第' + ++count + '次重试');
+                return _this.transmit(command);
             }
+
             for (var i = 0; i < spaceships.length; i++) {
                 if (spaceships[i]){
-                    spaceships[i].receive(commandPacket);
+                    spaceships[i].receive(command);
                 }
             }
-            $('#console').innerHTML += '<p>信号“' + commandPacket.id + '号：' + commandPacket.command + '”发送成功</p>';
-            $('#console').scrollTop = $('#console').scrollHeight;
-        }, 1000);
-    };
+            DIYConsole.display('信号“' + command + '”发送成功');
+        }, this.transmitTime);
+    }
+};
 
-    return {
-        transmit: transmit
-    };
-}();
-
-
+var DIYConsole = {
+    divConsole: $('#console'),
+    display: function (text) {
+        this.divConsole.innerHTML += '<p>' + text + '</p>';
+        this.divConsole.scrollTop = this.divConsole.scrollHeight;
+    }
+};
 
 
 var planet = {
@@ -205,25 +253,73 @@ var planet = {
         }
     ],
     sendCommand: function (id, command) {
-        mediator.transmit({
+        var commandPacket = {
             id: id,
             command: command
-        });
+        };
+        BUS.transmit(this.adapter(commandPacket));
+    },
+    adapter: function (commandPacket) {
+        var index;
+        for (var i = 0; i < this.commands.length; i++) {
+            if (this.commands[i].command === commandPacket.command) {
+                index = i;
+                break;
+            }
+        }
+        return Math.toBinary(commandPacket.id).fillZero(4) + Math.toBinary(index).fillZero(4);
     }
 };
 
+var engineData = {
+    progress: {
+        speed: 3000,
+        expend: 5
+    },
+    gallop: {
+        speed: 5000,
+        expend: 7
+    },
+    beyond: {
+        speed: 8000,
+        expend: 9
+    }
+};
+
+var poweData = {
+    strong: 2,
+    light: 3,
+    forever: 4
+};
 
 var spaceships = [];
 
+//获取单选控件的值
+var getInpRadioSelect = function (name) {
+    var inpRadios = document.querySelectorAll('input[name=' + name + ']');
+    for (var i = 0, item; item = inpRadios[i++];) {
+        if (item.checked) {
+            return item.value;
+        }
+    }
+};
+
 $('#new-spaceship').onclick = function () {
+    var engineType = getInpRadioSelect('engine');
+    var powerType = getInpRadioSelect('power');
     var countNull = 0;
 
     for (var i = 0; i < 4; i++) {
-        if (! spaceships[i]) {
-            countNull++;
-            if (countNull === 1) {
-                spaceships[i] = createSpaceship(i + 1);
-            }
+        if (spaceships[i]) {
+            continue;
+        }
+        countNull++;
+        if (countNull === 1) {
+            spaceships[i] = createSpaceship(i + 1,
+                engineData[engineType].speed,
+                engineData[engineType].expend,
+                poweData[powerType]
+            );
         }
     }
     this.disabled = (countNull <= 1);
